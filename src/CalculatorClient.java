@@ -87,7 +87,7 @@ public class CalculatorClient extends JFrame implements ActionListener {
 
     public void addOutput() {
 
-        System.out.println("welcome client");
+        System.out.println("welcome");
         Socket socket = null;
         try {
             socket = new Socket("localhost", 1111);
@@ -95,14 +95,15 @@ public class CalculatorClient extends JFrame implements ActionListener {
             System.out.println("Client connected");
             ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
             Calculator calcule = new Calculator(info.getText());
+            //sending object to server
             os.writeObject(calcule);
             System.out.println("Object sent ...");
             ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
+            //getting result from server
             Calculator returnMessage = (Calculator) is.readObject();
             info.setText(returnMessage.getResult());
             socket.close();
             editable = false;
-
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
